@@ -53,6 +53,28 @@ apis:
     Standards Get Products specification; no bank-proprietary OpenAPI is published, so the
     shared DSB CDS Banking contract is harvested here.
 common:
+- type: DomainSecurity
+  url: security/people-first-bank-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/people-first-bank-agentic-access.yml
+- type: ErrorCatalog
+  url: errors/people-first-bank-problem-types.yml
+- type: Conventions
+  url: conventions/people-first-bank-conventions.yml
+- type: Conformance
+  url: conformance/people-first-bank-conformance.yml
+- type: Lifecycle
+  url: lifecycle/people-first-bank-lifecycle.yml
+- type: MCPServer
+  url: mcp/people-first-bank-mcp.yml
+- type: LLMsTxt
+  url: llms/people-first-bank-llms.txt
+- type: Overlay
+  url: overlays/people-first-bank-cds-banking-products-overlay.yaml
+- type: DataModel
+  url: data-model/people-first-bank-data-model.yml
+- type: AgentSkill
+  url: skills/_index.yml
 - type: Website
   url: https://www.peoplefirstbank.com.au/
 - type: DeveloperPortal

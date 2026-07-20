@@ -1,0 +1,27 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for People First Bank CDR Product Reference Data API
+  version: 1.0.0
+extends: openapi/people-first-bank-cds-banking-products-openapi.yml
+# The harvested spec is the shared DSB Consumer Data Standards Banking contract (MTLS example
+# servers). This overlay records API Evangelist's enhancements WITHOUT mutating the original:
+# it pins the real, live public PRD base URL and flags the two operations People First Bank
+# actually exposes publicly. Non-PRD operations require CDR accreditation and are not public here.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: People First Bank
+      x-apievangelist-surface: cdr-product-reference-data
+      x-apievangelist-public-unauthenticated: true
+  - target: $.servers
+    update:
+      - description: People First Bank public CDR PRD (live, unauthenticated)
+        url: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1
+  - target: $.paths./banking/products.get
+    update:
+      x-apievangelist-public: true
+      x-apievangelist-verified: '2026-07-20 HTTP 200, x-v 5, data.products array'
+  - target: $.paths./banking/products/{productId}.get
+    update:
+      x-apievangelist-public: true
+      x-apievangelist-verified: 'Documented public PRD endpoint (Get Product Detail, x-v 7)'

@@ -1,0 +1,57 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/people-first-bank-cds-banking-products-openapi.yml
+# The CDR Consumer Data Standards do NOT use RFC 9457 application/problem+json.
+# Errors are returned as a ResponseErrorListV2 envelope: { "errors": [ ErrorV2 ] }
+# where each ErrorV2 has { code (au-cds URN), title, detail, meta? }.
+# Only the two public, unauthenticated Product Reference Data (PRD) operations are
+# reachable without CDR authorisation; the error set below is what those operations return.
+format: cds-error-list
+envelope:
+  field: errors
+  item: ErrorV2
+  fields: [code, title, detail, meta]
+  code_scheme: URN (urn:au-cds:error:...)
+problems:
+  - status: 400
+    code: urn:au-cds:error:cds-all:Field/Invalid
+    title: Invalid Field
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - status: 400
+    code: urn:au-cds:error:cds-all:Field/Missing
+    title: Missing Required Field
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - status: 400
+    code: urn:au-cds:error:cds-all:Header/Missing
+    title: Missing Required Header
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - status: 400
+    code: urn:au-cds:error:cds-all:Header/InvalidVersion
+    title: Invalid Version
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - status: 400
+    code: urn:au-cds:error:cds-all:Field/InvalidDateTime
+    title: Invalid Date
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - status: 400
+    code: urn:au-cds:error:cds-all:Field/InvalidPageSize
+    title: Invalid Page Size
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - status: 404
+    code: urn:au-cds:error:cds-all:Resource/Unavailable
+    title: Unavailable Resource
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#getBankingProductDetail
+  - status: 404
+    code: urn:au-cds:error:cds-all:Resource/Invalid
+    title: Invalid Resource
+    remediation: The productId supplied does not correspond to a valid product. Re-fetch the list via listBankingProducts.
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#getBankingProductDetail
+  - status: 406
+    code: urn:au-cds:error:cds-all:Header/UnsupportedVersion
+    title: Unsupported Version
+    remediation: Request a supported payload version in the x-v header. Live probe 2026-07-20 confirmed x-v 4 and 5 return 200; x-v 1 and 2 return 406.
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - status: 422
+    code: urn:au-cds:error:cds-all:Field/InvalidPage
+    title: Invalid Page
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts

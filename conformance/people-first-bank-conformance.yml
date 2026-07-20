@@ -1,0 +1,32 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/people-first-bank-cds-banking-products-openapi.yml
+# Which cross-cutting / industry standards the public PRD surface conforms to.
+# Derived from the harvested DSB Consumer Data Standards Banking contract, the review.yml
+# live-probe findings, and the bank's open-banking documentation. No published bank-owned
+# compliance program (SOC 2 / ISO 27001 / PCI) is asserted here, so no Compliance pointer is emitted.
+standards:
+  - id: cdr-consumer-data-standards
+    conforms: true
+    evidence: >-
+      Harvested spec is the DSB (Data Standards Body) CDR Banking API contract; live GET
+      /banking/products returned HTTP 200 with x-v 5 and a data.products array (probed 2026-07-20).
+  - id: cds-get-products
+    conforms: true
+    evidence: Implements Get Products (x-version 5) and Get Product Detail (x-version 7) per the DSB standard.
+  - id: version-negotiation-x-v
+    conforms: true
+    evidence: x-v/x-min-v request headers enforced; unsupported versions return 406 (confirmed live).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Uses the CDR ResponseErrorListV2 error envelope (errors[] with au-cds URN codes), not application/problem+json.
+  - id: standard-pagination
+    conforms: true
+    evidence: page / page-size query params with LinksPaginated + MetaPaginated response objects.
+  - id: oauth2-oidc-fapi
+    conforms: true
+    scope: consumer-data-sharing-only
+    evidence: >-
+      Consumer (account/transaction) data sharing beyond PRD uses the CDR accredited-data-recipient
+      model secured with OAuth2/OIDC under the FAPI profile via the CDR register (per bank docs and
+      the CDR regime). NOTE: the public PRD endpoints themselves are unauthenticated.

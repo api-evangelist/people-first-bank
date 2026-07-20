@@ -1,0 +1,28 @@
+# People First Bank
+
+> People First Bank (trading name of Heritage and People's Choice Ltd, ABN 11 087 651 125) is an Australian customer-owned mutual bank formed from the 2023 merger of Heritage Bank and People's Choice Credit Union. Under Australia's Consumer Data Right (CDR / open banking) it exposes a public, unauthenticated Product Reference Data (PRD) API conforming to the Data Standards Body Consumer Data Standards. Consumer data sharing beyond PRD runs through the accredited-data-recipient model (OAuth2/OIDC, FAPI) via the CDR register, not a general-purpose public developer platform.
+
+## APIs
+
+- [People First Bank CDR Product Reference Data API](https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers): Public, unauthenticated CDR PRD API. Base: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1 — GET /banking/products (Get Products, x-v 5) and GET /banking/products/{productId} (Get Product Detail, x-v 7).
+
+## Specs
+
+- [OpenAPI (DSB CDS Banking contract)](openapi/people-first-bank-cds-banking-products-openapi.yml): Shared Data Standards Body Consumer Data Standards Banking API; the two public PRD operations conform to it.
+- [MCP server (candidate)](mcp/people-first-bank-mcp.yml): Candidate tool list for the two public PRD operations.
+- [OpenAPI Overlay](overlays/people-first-bank-cds-banking-products-overlay.yaml): API Evangelist enhancements pinning the live public base URL.
+- [Agent Skill: product lookup](skills/people-first-bank-product-lookup.md): Operating instructions for the two public PRD operations.
+
+## Semantics
+
+- [API conventions](conventions/people-first-bank-conventions.yml): version negotiation (x-v/x-min-v), page/page-size pagination, x-fapi-interaction-id tracing, read-only (no idempotency).
+- [Error catalog](errors/people-first-bank-problem-types.yml): CDR au-cds URN error codes (400/404/406/422); not RFC 9457.
+- [Conformance](conformance/people-first-bank-conformance.yml): CDR Consumer Data Standards, Get Products, standard pagination, OAuth2/OIDC/FAPI (consumer data sharing only).
+- [Lifecycle](lifecycle/people-first-bank-lifecycle.yml): payload-version negotiation via x-v; DSB obsolete-version regime.
+- [Data model](data-model/people-first-bank-data-model.yml): BankingProduct entity-relationship graph.
+
+## Docs
+
+- [Open banking overview](https://www.peoplefirstbank.com.au/help-and-support/open-banking)
+- [Open banking for developers](https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers)
+- [DSB Consumer Data Standards — Get Products](https://consumerdatastandardsaustralia.github.io/standards/#get-products)

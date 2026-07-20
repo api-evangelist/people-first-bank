@@ -1,0 +1,102 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/people-first-bank-cds-banking-products-openapi.yml
+# Entity-relationship graph for the public CDR Product Reference Data surface, derived from the
+# BankingProduct* schema $ref graph in the harvested DSB CDS Banking contract. The public surface
+# is a read-only product catalogue: BankingProductDetailV7 is the aggregate root returned by
+# getBankingProductDetail; BankingProductV6 is the list item returned by listBankingProducts.
+entities:
+  - name: BankingProduct
+    schema: BankingProductV6
+    id_field: productId
+    id_type: BankingProductId
+    key_fields: [productCategory, name, description, brand, isTailored, lastUpdated, effectiveFrom, effectiveTo]
+    note: List representation returned by listBankingProducts.
+  - name: BankingProductDetail
+    schema: BankingProductDetailV7
+    id_field: productId
+    note: Detailed representation returned by getBankingProductDetail; superset of BankingProduct with feature/price/rate arrays.
+  - name: BankingProductBundle
+    schema: BankingProductBundle
+  - name: BankingProductFeature
+    schema: BankingProductFeatureV4
+  - name: BankingProductConstraint
+    schema: BankingProductConstraintV3
+  - name: BankingProductEligibility
+    schema: BankingProductEligibilityV2
+  - name: BankingProductFee
+    schema: BankingProductFeeV2
+  - name: BankingProductDiscount
+    schema: BankingProductDiscountV2
+  - name: BankingProductDiscountEligibility
+    schema: BankingProductDiscountEligibility
+  - name: BankingProductDepositRate
+    schema: BankingProductDepositRateV2
+  - name: BankingProductLendingRate
+    schema: BankingProductLendingRateV3
+  - name: BankingProductRateTier
+    schema: BankingProductRateTierV4
+  - name: BankingProductRateCondition
+    schema: BankingProductRateConditionV2
+  - name: BankingProductCardArt
+    schema: BankingProductCardArt
+relationships:
+  - from: BankingProductDetail
+    to: BankingProductBundle
+    kind: has_many
+    via: bundles
+  - from: BankingProductDetail
+    to: BankingProductFeature
+    kind: has_many
+    via: features
+  - from: BankingProductDetail
+    to: BankingProductConstraint
+    kind: has_many
+    via: constraints
+  - from: BankingProductDetail
+    to: BankingProductEligibility
+    kind: has_many
+    via: eligibility
+  - from: BankingProductDetail
+    to: BankingProductFee
+    kind: has_many
+    via: fees
+  - from: BankingProductDetail
+    to: BankingProductDepositRate
+    kind: has_many
+    via: depositRates
+  - from: BankingProductDetail
+    to: BankingProductLendingRate
+    kind: has_many
+    via: lendingRates
+  - from: BankingProductDetail
+    to: BankingProductCardArt
+    kind: has_many
+    via: cardArt
+  - from: BankingProductFee
+    to: BankingProductDiscount
+    kind: has_many
+    via: discounts
+  - from: BankingProductDiscount
+    to: BankingProductDiscountEligibility
+    kind: has_many
+    via: eligibility
+  - from: BankingProductDepositRate
+    to: BankingProductRateTier
+    kind: has_many
+    via: tiers
+  - from: BankingProductLendingRate
+    to: BankingProductRateTier
+    kind: has_many
+    via: tiers
+  - from: BankingProductRateTier
+    to: BankingProductRateCondition
+    kind: has_many
+    via: applicabilityConditions
+enumerations:
+  productCategory:
+    schema: BankingProductCategoryV2
+    values: [BUSINESS_LOANS, BUY_NOW_PAY_LATER, CRED_AND_CHRG_CARDS, LEASES, MARGIN_LOANS, OVERDRAFTS, PERS_LOANS, REGULATED_TRUST_ACCOUNTS, RESIDENTIAL_MORTGAGES, TERM_DEPOSITS, TRADE_FINANCE, TRANS_AND_SAVINGS_ACCOUNTS, TRAVEL_CARDS]
+notes: >-
+  There is no id linking an account to the product that spawned it in the CDR regime; productCategory
+  is the only common field between products and accounts (accounts are not part of the public surface).

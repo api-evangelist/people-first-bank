@@ -1,0 +1,30 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/people-first-bank-cds-banking-products-openapi.yml
+# Versioning / lifecycle posture for the public PRD surface. People First Bank publishes no
+# API-specific status page, SLA, or bank-owned deprecation policy; versioning and obsolescence
+# are governed by the DSB Consumer Data Standards regime (per-endpoint x-v payload versions).
+versioning:
+  scheme: payload-version-header
+  request_header: x-v
+  min_header: x-min-v
+  current:
+    listBankingProducts: '5'
+    getBankingProductDetail: '7'
+  docs: https://consumerdatastandardsaustralia.github.io/standards/#get-products
+  observed: 'x-v 4 and 5 supported (200); x-v 1 and 2 unsupported (406) on /banking/products, probed 2026-07-20'
+deprecation:
+  mechanism: cds-obsolete-versions
+  policy_url: null
+  sunset_header: false
+  note: >-
+    Obsolescence is handled by the DSB standard's per-endpoint version obsolescence (older x-v
+    payload versions are marked obsolete and eventually unsupported, returning 406). Products no
+    longer offered are marked not-effective via effectiveFrom/effectiveTo rather than deleted.
+    The bank publishes no separate deprecation policy of its own.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+status_page_note: No public API status page found for the People First Bank open-banking surface.
+deprecated_operations: []

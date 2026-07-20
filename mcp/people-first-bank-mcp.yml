@@ -1,0 +1,19 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/people-first-bank-cds-banking-products-openapi.yml
+# No official People First Bank MCP server exists. This is a candidate tool list derived from
+# the two PUBLIC, unauthenticated CDR Product Reference Data operations (the only surface an
+# agent can call without CDR accreditation). The other DSB Banking operations require the CDR
+# accredited-data-recipient OAuth2/OIDC/FAPI flow and are intentionally excluded.
+server:
+  name: people-first-bank
+  transport: http
+  url: null
+tools:
+  - name: list_banking_products
+    description: List banking products currently openly offered to the market (public CDR PRD). Supports effective, product-category, brand, updated-since filters and page/page-size pagination. Requires x-v header (use 5).
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - name: get_banking_product_detail
+    description: Obtain detailed information on a single publicly offered product by productId. Requires x-v header (use 7).
+    source_operation: openapi/people-first-bank-cds-banking-products-openapi.yml#getBankingProductDetail

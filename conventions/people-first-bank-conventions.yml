@@ -1,0 +1,54 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/people-first-bank-cds-banking-products-openapi.yml
+# Cross-cutting request/response semantics for the public CDR Product Reference Data (PRD)
+# surface. Derived from the DSB Consumer Data Standards Banking contract and confirmed by a
+# live probe of GET /banking/products (2026-07-20). The PRD endpoints are read-only GETs, so
+# there is NO idempotency-key contract (no state-changing operations exist on the public surface).
+authentication:
+  style: none
+  note: >-
+    Product Reference Data is public and unauthenticated (no API key, no OAuth). Consumer data
+    sharing beyond PRD uses the CDR accredited-data-recipient model with OAuth2/OIDC under the
+    FAPI profile via the CDR register — not part of this public surface.
+versioning:
+  style: header-negotiation
+  request_headers:
+    - name: x-v
+      required: true
+      description: Payload version requested by the client (positive integer).
+    - name: x-min-v
+      required: false
+      description: Minimum acceptable payload version; server responds with the highest supported between x-min-v and x-v.
+  response_header: x-v
+  unsupported_version_status: 406
+  observed: 'x-v 4 and 5 return 200; x-v 1 and 2 return 406 (live probe 2026-07-20)'
+pagination:
+  style: page-number
+  params:
+    - name: page
+      default: 1
+    - name: page-size
+      default: 25
+  response_fields:
+    links: { self, first, prev, next, last }
+    meta: { totalRecords, totalPages }
+  invalid_page_status: 422
+request_tracing:
+  header: x-fapi-interaction-id
+  format: RFC 4122 UUID
+  behaviour: If provided the data holder MUST echo it back in the x-fapi-interaction-id response header (correlation id).
+idempotency:
+  supported: false
+  note: Public PRD surface is read-only (GET only); no idempotency-key mechanism applies.
+error_envelope:
+  shape: '{ "errors": [ { code, title, detail, meta? } ] }'
+  code_scheme: URN (urn:au-cds:error:...)
+  see: errors/people-first-bank-problem-types.yml
+rate_limiting:
+  documented: false
+  note: No rate-limit signalling headers are documented for the public PRD endpoints in the DSB contract.
+cross_links:
+  errors: errors/people-first-bank-problem-types.yml
+  lifecycle: lifecycle/people-first-bank-lifecycle.yml
+  conformance: conformance/people-first-bank-conformance.yml
