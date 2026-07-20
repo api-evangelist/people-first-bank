@@ -1,0 +1,74 @@
+aid: people-first-bank
+name: People First Bank
+review:
+  question: Does People First Bank expose a live, public Consumer Data Right (CDR) Product Reference Data API, and does it run a broader public developer portal?
+  answer: true
+  date: '2026-07-20'
+  reviewer: API Evangelist
+  cdrPrdConfirmed: true
+  cdrBaseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1
+  specProvenance: |
+    The harvested OpenAPI is the shared Data Standards Body (DSB) Consumer Data
+    Standards "CDR Banking API" contract (openapi 3.0.3, contact@dsb.gov.au),
+    NOT a bank-proprietary specification. People First Bank publishes no OpenAPI
+    of its own; its PRD surface simply conforms to the DSB Get Products standard.
+findings:
+  summary: |
+    People First Bank (Heritage and People's Choice Ltd, ABN 11 087 651 125) runs
+    a live, public, unauthenticated CDR Product Reference Data (PRD) API. The
+    canonical, bank-documented base is
+    https://public.openbanking.peoplefirstbank.com.au/cds-au/v1 and
+    GET /banking/products was confirmed HTTP 200 with x-v: 5 returning a
+    data.products array of real banking products (backend error codes carry a
+    PCUA / People's Choice prefix, reflecting the merged entity's shared
+    infrastructure). Version negotiation is enforced: x-v 4 and 5 return 200,
+    while x-v 1 and 2 return 406 Unsupported Version. The bank documents only the
+    two public PRD endpoints (Get Products and Get Product Detail) on its
+    open-banking-for-developers page; it does NOT operate a broader public
+    developer portal, an Up-style personal-banking API, or any published
+    bank-owned OpenAPI/GitHub organisation. All non-PRD consumer data sharing
+    happens through the regulated CDR accredited-data-recipient (ADR) model
+    secured with OAuth2/OIDC (FAPI) — there is no self-serve public app
+    registration outside the CDR register.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1
+      documented: true
+      note: Public unauthenticated CDR Product Reference Data endpoints.
+  authModel: |
+    Product Reference Data is public and unauthenticated (no API key, no OAuth).
+    Consumer (account/transaction) data sharing is not public: it uses the CDR
+    accredited-data-recipient model with OAuth2 / OpenID Connect under the
+    FAPI profile, mediated by the CDR register — not a bank-issued developer key.
+  endpointsConfirmed:
+    - GET https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/products
+  endpointsDocumentedNotProbed:
+    - GET https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/products/{productId}
+  developerPortal: false
+  developerPortalNote: |
+    No general-purpose developer portal. The bank's public developer touchpoint
+    is a static help page (open-banking-for-developers) listing the two PRD
+    endpoints and directing integrators to the DSB Consumer Data Standards and
+    to OpenBankingSupport@peopleschoice.com.au. No API keys are issued publicly.
+sources:
+  - url: https://www.peoplefirstbank.com.au/help-and-support/open-banking
+    type: Documentation
+    note: Explains CDR / open banking; links to the developer page.
+  - url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+    type: Documentation
+    note: Lists the two public PRD endpoints (Get Products, Get Product Detail); support via OpenBankingSupport@peopleschoice.com.au.
+  - url: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/products
+    type: APIEndpoint
+    note: Probed live 2026-07-20 — HTTP 200 with x-v 4/5, data.products array; x-v 1/2 return 406 Unsupported Version.
+  - url: https://consumerdatastandardsaustralia.github.io/standards/includes/swagger/cds_banking.json
+    type: OpenAPI
+    note: DSB Consumer Data Standards CDR Banking API (openapi 3.0.3) — shared standard harvested to openapi/people-first-bank-cds-banking-products-openapi.yml; not bank-proprietary.
+actions:
+  openapiPath: openapi/people-first-bank-cds-banking-products-openapi.yml
+  apisYmlUpdated: true
+  reason: |
+    Bootstrap profile created with the confirmed live CDR PRD API and the shared
+    DSB CDS Banking OpenAPI. No bank-specific spec, developer portal, or GitHub
+    organisation exists to harvest; enrichment can extend identity artifacts
+    later.
