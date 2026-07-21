@@ -165,6 +165,8 @@ apis:
 common:
 - type: DomainSecurity
   url: security/people-first-bank-domain-security.yml
+- type: Authentication
+  url: authentication/people-first-bank-authentication.yml
 - type: AgenticAccess
   url: agentic-access/people-first-bank-agentic-access.yml
 - type: ErrorCatalog
@@ -191,6 +193,8 @@ common:
   url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
 - type: Documentation
   url: https://www.peoplefirstbank.com.au/help-and-support/open-banking
+- type: GettingStarted
+  url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
 - type: APIReference
   url: https://consumerdatastandardsaustralia.github.io/standards/#consumer-data-standards-banking-apis
 - type: LinkedIn

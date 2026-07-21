@@ -1,0 +1,40 @@
+generated: '2026-07-21'
+method: searched
+# Live probe (2026-07-21) of the /.well-known/ discovery surface on both the public CDR gateway
+# host and the corporate website. NO document returned 200: the CDR gateway
+# (public.openbanking.peoplefirstbank.com.au) returns HTTP 403 (CDR error envelope) for every
+# /.well-known/ path except the whitelisted /banking/products endpoint, and the corporate site
+# returns 404. This is an honest negative record so future rounds do not re-probe blindly. No
+# WellKnown / SecurityTxt pointer is emitted because no discovery document is genuinely published.
+hosts:
+  - host: https://public.openbanking.peoplefirstbank.com.au
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /cds-au/v1/.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/ai-plugin.json
+        status: 403
+  - host: https://www.peoplefirstbank.com.au
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+note: >-
+  Consumer-data-sharing OIDC discovery is not exposed on the public gateway; it is brokered
+  through the CDR Register to accredited data recipients, so no public openid-configuration is
+  reachable. No responsible-disclosure security.txt is published (confirmed via the bank's Digital
+  Banking Security page, which routes reports to 13 11 82 rather than a security researcher channel).
