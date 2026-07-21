@@ -24,7 +24,7 @@ tags:
 - Mutual Bank
 - Product Reference Data
 created: '2026-07-20'
-modified: '2026-07-20'
+modified: '2026-07-21'
 specificationVersion: '0.19'
 apis:
 - aid: people-first-bank:people-first-bank-cdr-product-reference-data-api
@@ -37,7 +37,7 @@ apis:
   - Australia
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
-  baseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1
+  baseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/products
   properties:
   - url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
     type: Documentation
@@ -49,9 +49,119 @@ apis:
     API exposing the bank's banking product catalogue. Confirmed live at
     https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/products (HTTP 200,
     x-v 5) returning a data.products array, with a Get Product Detail endpoint at
-    /banking/products/{productId}. Conforms to the Data Standards Body Consumer Data
-    Standards Get Products specification; no bank-proprietary OpenAPI is published, so the
-    shared DSB CDS Banking contract is harvested here.
+    /banking/products/{productId}. The bank's open-banking-for-developers page documents
+    exactly these two public endpoints. Conforms to the Data Standards Body Consumer Data
+    Standards Get Products / Get Product Detail specification; no bank-proprietary OpenAPI
+    is published, so the shared DSB CDS Banking contract (v1.36.0) is harvested here.
+- aid: people-first-bank:people-first-bank-cdr-accounts-balances-api
+  name: People First Bank CDR Accounts & Balances API
+  tags:
+  - CDR
+  - Open Banking
+  - Accounts
+  - Balances
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+  baseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/accounts
+  properties:
+  - url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-accounts
+    type: APIReference
+  - url: openapi/people-first-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-AUTHORIZED Consumer Data Right (CDR) Accounts and Balances surface,
+    reached through the accredited data recipient (ADR) model and secured with OAuth2/OIDC
+    (FAPI). Covers Get Accounts (/banking/accounts), Get Bulk Balances
+    (/banking/accounts/balances), Get Balances For Specific Accounts, Get Account Balance
+    (/banking/accounts/{accountId}/balance) and Get Account Detail
+    (/banking/accounts/{accountId}). The endpoint is live and gated — an unauthenticated
+    GET to /banking/accounts returns HTTP 403 — confirming the bank implements the
+    standardized authorized surface. Contract is the shared DSB CDS Banking API v1.36.0;
+    People First Bank publishes no bank-proprietary OpenAPI, and ADRs must be accredited
+    to obtain a consumer authorization.
+- aid: people-first-bank:people-first-bank-cdr-transactions-api
+  name: People First Bank CDR Transactions API
+  tags:
+  - CDR
+  - Open Banking
+  - Transactions
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+  baseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/accounts
+  properties:
+  - url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-transactions-for-account
+    type: APIReference
+  - url: openapi/people-first-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-AUTHORIZED Consumer Data Right (CDR) Transactions surface, reached
+    through the accredited data recipient (ADR) model and secured with OAuth2/OIDC (FAPI).
+    Covers Get Transactions For Account
+    (/banking/accounts/{accountId}/transactions) and Get Transaction Detail
+    (/banking/accounts/{accountId}/transactions/{transactionId}), returning transaction
+    history for a consumer-consented account. These endpoints require a valid consumer
+    authorization and accredited-ADR credentials, so they are not publicly callable. The
+    contract is the shared Data Standards Body CDS Banking API v1.36.0; the bank publishes
+    no proprietary OpenAPI for this surface.
+- aid: people-first-bank:people-first-bank-cdr-direct-debits-scheduled-payments-api
+  name: People First Bank CDR Direct Debits & Scheduled Payments API
+  tags:
+  - CDR
+  - Open Banking
+  - Direct Debits
+  - Scheduled Payments
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+  baseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking
+  properties:
+  - url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-direct-debits-for-account
+    type: APIReference
+  - url: openapi/people-first-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-AUTHORIZED Consumer Data Right (CDR) Direct Debits and Scheduled
+    Payments surface, reached through the accredited data recipient (ADR) model and secured
+    with OAuth2/OIDC (FAPI). Covers Get Direct Debits For Account, Get Bulk Direct Debits
+    (/banking/accounts/direct-debits), Get Direct Debits For Specific Accounts, Get
+    Scheduled Payments For Account, Get Bulk Scheduled Payments
+    (/banking/payments/scheduled) and Get Scheduled Payments For Specific Accounts. All
+    require a consumer authorization and accredited-ADR credentials and are not publicly
+    callable. The contract is the shared Data Standards Body CDS Banking API v1.36.0; no
+    bank-proprietary OpenAPI is published.
+- aid: people-first-bank:people-first-bank-cdr-payees-api
+  name: People First Bank CDR Payees API
+  tags:
+  - CDR
+  - Open Banking
+  - Payees
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+  baseURL: https://public.openbanking.peoplefirstbank.com.au/cds-au/v1/banking/payees
+  properties:
+  - url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-payees
+    type: APIReference
+  - url: openapi/people-first-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-AUTHORIZED Consumer Data Right (CDR) Payees surface, reached through
+    the accredited data recipient (ADR) model and secured with OAuth2/OIDC (FAPI). Covers
+    Get Payees (/banking/payees) and Get Payee Detail (/banking/payees/{payeeId}),
+    returning a consumer's saved payees for a consented account. These endpoints require a
+    valid consumer authorization and accredited-ADR credentials, so they are not publicly
+    callable. The contract is the shared Data Standards Body CDS Banking API v1.36.0; the
+    bank publishes no proprietary OpenAPI for this surface.
 common:
 - type: DomainSecurity
   url: security/people-first-bank-domain-security.yml
@@ -81,6 +191,8 @@ common:
   url: https://www.peoplefirstbank.com.au/help-and-support/open-banking/open-banking-for-developers
 - type: Documentation
   url: https://www.peoplefirstbank.com.au/help-and-support/open-banking
+- type: APIReference
+  url: https://consumerdatastandardsaustralia.github.io/standards/#consumer-data-standards-banking-apis
 - type: LinkedIn
   url: https://www.linkedin.com/company/people-first-bank
 - type: Blog
