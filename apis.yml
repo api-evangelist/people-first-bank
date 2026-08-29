@@ -13,6 +13,18 @@ description: People First Bank is an Australian customer-owned mutual bank, trad
   Consumer Data Standards; consumer data sharing beyond PRD runs through the accredited
   data recipient model secured with OAuth2/OIDC (FAPI) rather than a general-purpose
   public developer platform.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
