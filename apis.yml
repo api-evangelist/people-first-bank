@@ -227,6 +227,9 @@ apis:
   - type: APIReference
     url: https://consumerdatastandardsaustralia.github.io/standards/#get-payees
 common:
+- type: CapabilityMap
+  url: capabilities/people-first-bank-capability-edges.yml
+  name: People First Bank Business Capability Map
 - type: DomainSecurity
   url: security/people-first-bank-domain-security.yml
 - type: Authentication
